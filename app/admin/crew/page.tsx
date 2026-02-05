@@ -162,14 +162,40 @@ export default function ManageCrewPage() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
+            // --- PERBAIKAN UTAMA DI SINI ---
+            // Konversi string kosong "" menjadi null agar database tidak error invalid input syntax for type date
+            const payload = {
+                ...values,
+                join_date: values.join_date === "" ? null : values.join_date,
+                resign_date: values.resign_date === "" ? null : values.resign_date,
+                // Pastikan jika status AKTIF, maka resign data dikosongkan (opsional tapi rapi)
+                resign_reason: values.is_active ? null : values.resign_reason
+            };
+
+            // Jika sedang EDIT, tambahkan ID
+            if (editingCrew) {
+                Object.assign(payload, { id: editingCrew.id });
+            }
+
             const method = editingCrew ? 'PATCH' : 'POST';
-            const body = editingCrew ? JSON.stringify({ id: editingCrew.id, ...values }) : JSON.stringify(values);
-            const response = await fetch('/api/admin/crew', { method, headers: { 'Content-Type': 'application/json' }, body });
-            if (!response.ok) throw new Error((await response.json()).message);
-            toast.success(`Data tersimpan.`);
+            
+            const response = await fetch('/api/admin/crew', { 
+                method, 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify(payload) 
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Gagal menyimpan data.");
+            }
+            
+            toast.success(`Data berhasil disimpan.`);
             setIsDialogOpen(false);
-            fetchData();
-        } catch (error: any) { toast.error("Gagal", { description: error.message }); }
+            fetchData(); // Refresh tabel
+        } catch (error: any) { 
+            toast.error("Gagal", { description: error.message }); 
+        }
     };
 
     const handleDelete = async (id: string) => {

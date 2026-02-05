@@ -67,6 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             title: "DATA ADMINISTRASI",
             matchPaths: ["/admin/crew", "/admin/outlets", "/admin/contracts"],
             items: [
+                { label: "Approval Kandidat", href: "/admin/crew/approvals", icon: FileSignature },
                 { label: "Data Kru", href: "/admin/crew", icon: Users },
                 { label: "Outlet", href: "/admin/outlets", icon: Building },
                 { label: "Kontrak Kerja", href: "/admin/contracts", icon: FileSignature },
