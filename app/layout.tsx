@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sistem Penilaian Kru Balista",
-  description: "Penilaian kinerja kru",
+  title: "Integrated HR Dashboard",
+  description: "HR PT Altri Sejahtera Indonesia",
 };
 
 export default function RootLayout({

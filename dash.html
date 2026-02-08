@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Balista HR Bento Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#033f3f",
+                        "secondary": "#608a8a",
+                        "accent-red": "#e73108",
+                        "accent-green": "#078832",
+                        "accent-yellow": "#eab308",
+                        "background-light": "#fcf8f2",
+                        "background-dark": "#102222",
+                        "surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(231, 49, 8, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 49, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 49, 8, 0); }
+        }
+        .pulsating-dot {
+            animation: pulse-dot 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-800 font-display min-h-screen overflow-x-hidden">
+<div class="flex flex-col md:flex-row min-h-screen">
+<!-- Sidebar -->
+<aside class="w-full md:w-64 bg-primary text-white flex-shrink-0 flex flex-col justify-between p-6 sticky top-0 h-screen overflow-y-auto">
+<div class="flex flex-col gap-10">
+<!-- Logo -->
+<div class="flex items-center">
+<div className="flex flex-col items-center">
+  <img
+  src="./logo1.png"
+  alt="Balista Logo"
+  style="height: 70px; width: auto;"
+/>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/15 text-white shadow-sm border border-white/5 transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">schedule</span>
+<span class="font-medium text-sm">Attendance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+<span class="font-medium text-sm">Payroll</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+<span class="font-medium text-sm">Risk Analysis</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-col gap-4 mt-auto">
+<button class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- Header -->
+<header class="flex items-center justify-between px-6 py-6 md:px-10 sticky top-0 bg-background-light/90 z-20 backdrop-blur-md">
+<div class="flex flex-col">
+<h2 class="text-2xl font-bold text-gray-900 tracking-tight">Halo, HR Admin 👋</h2>
+<p class="text-gray-500 text-sm">Here's what's happening at Balista today.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="size-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-accent-red rounded-full border border-white"></span>
+</button>
+<div class="h-10 w-px bg-gray-200 mx-1"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden md:block">
+<p class="text-sm font-bold text-gray-900">HR Team</p>
+<p class="text-xs text-gray-500">Admin</p>
+</div>
+<div class="size-10 rounded-full bg-gray-500 bg-cover bg-center border-2 border-white shadow-sm" data-alt="Portrait of Sarah Jenkins, HR Admin";'></div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content - Bento Grid -->
+<div class="p-6 md:px-10 md:pb-10 flex-1">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<!-- Stat Card 1 -->
+<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between bento-card relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-full w-1 bg-primary/80"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/5 rounded-lg text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-xs font-semibold px-2 py-1 bg-green-50 text-green-700 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +2%
+                            </span>
+</div>
+<div>
+<p class="text-gray-500 text-sm font-medium mb-1">Total Kru</p>
+<h3 class="text-3xl font-bold text-gray-900">142</h3>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between bento-card relative overflow-hidden">
+<div class="absolute right-0 top-0 h-full w-1 bg-accent-yellow"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-yellow-50 rounded-lg text-yellow-700">
+<span class="material-symbols-outlined">sync_alt</span>
+</div>
+<span class="text-xs font-semibold px-2 py-1 bg-green-50 text-green-700 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_down</span> -1.2%
+                            </span>
+</div>
+<div>
+<p class="text-gray-500 text-sm font-medium mb-1">Turnover Rate</p>
+<h3 class="text-3xl font-bold text-gray-900">8.4%</h3>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between bento-card relative overflow-hidden">
+<div class="absolute right-0 top-0 h-full w-1 bg-accent-red"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-red-50 rounded-lg text-red-600 relative">
+<span class="material-symbols-outlined">warning</span>
+<span class="absolute top-0 right-0 w-2.5 h-2.5 bg-accent-red rounded-full pulsating-dot border border-white"></span>
+</div>
+<span class="text-xs font-semibold px-2 py-1 bg-red-50 text-red-700 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> +3 New
+                            </span>
+</div>
+<div>
+<p class="text-gray-500 text-sm font-medium mb-1">High Risk Crew</p>
+<h3 class="text-3xl font-bold text-gray-900">15 <span class="text-lg text-gray-400 font-normal">Orang</span></h3>
+</div>
+</div>
+</div>
+<!-- Middle Row -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
+<!-- Peta Risiko Outlet (Takes up 3/5 columns) -->
+<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 lg:col-span-3 bento-card flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-lg font-bold text-gray-900">Peta Risiko Outlet</h3>
+<p class="text-gray-500 text-sm">Visualisasi asesmen risiko per cabang</p>
+</div>
+<button class="p-2 hover:bg-gray-50 rounded-lg text-gray-400">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+<!-- Pasteur - Critical -->
+<div class="bg-red-50 rounded-xl p-5 border border-red-100 relative group cursor-pointer transition-colors hover:bg-red-100">
+<div class="flex justify-between items-start mb-8">
+<div class="bg-white/60 p-2 rounded-lg text-red-600 backdrop-blur-sm">
+<span class="material-symbols-outlined">error</span>
+</div>
+<span class="bg-red-200 text-red-800 text-xs font-bold px-2 py-1 rounded">CRITICAL</span>
+</div>
+<h4 class="text-lg font-bold text-gray-900 mb-1">Setrasari</h4>
+<p class="text-sm text-gray-600 leading-snug">High turnover &amp; attendance issues.</p>
+<div class="mt-4 pt-4 border-t border-red-200 flex items-center justify-between">
+<span class="text-xs text-red-700 font-medium">Risk Score: 92</span>
+<span class="material-symbols-outlined text-red-400 text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Antapani - Stable -->
+<div class="bg-green-50 rounded-xl p-5 border border-green-100 relative group cursor-pointer transition-colors hover:bg-green-100">
+<div class="flex justify-between items-start mb-8">
+<div class="bg-white/60 p-2 rounded-lg text-green-700 backdrop-blur-sm">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="bg-green-200 text-green-800 text-xs font-bold px-2 py-1 rounded">STABLE</span>
+</div>
+<h4 class="text-lg font-bold text-gray-900 mb-1">Pajajaran</h4>
+<p class="text-sm text-gray-600 leading-snug">Operations stable, standard attendance.</p>
+<div class="mt-4 pt-4 border-t border-green-200 flex items-center justify-between">
+<span class="text-xs text-green-700 font-medium">Risk Score: 12</span>
+<span class="material-symbols-outlined text-green-500 text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Dago - Warning -->
+<div class="bg-yellow-50 rounded-xl p-5 border border-yellow-100 relative group cursor-pointer transition-colors hover:bg-yellow-100">
+<div class="flex justify-between items-start mb-8">
+<div class="bg-white/60 p-2 rounded-lg text-yellow-700 backdrop-blur-sm">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-1 rounded">WARNING</span>
+</div>
+<h4 class="text-lg font-bold text-gray-900 mb-1">Tubagus Ismail</h4>
+<p class="text-sm text-gray-600 leading-snug">Increasing lateness observed.</p>
+<div class="mt-4 pt-4 border-t border-yellow-200 flex items-center justify-between">
+<span class="text-xs text-yellow-700 font-medium">Risk Score: 45</span>
+<span class="material-symbols-outlined text-yellow-600 text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tren Kehadiran vs Resign (Takes up 2/5 columns) -->
+<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 lg:col-span-2 bento-card flex flex-col">
+<div class="mb-4">
+<h3 class="text-lg font-bold text-gray-900">Kehadiran vs Resign</h3>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-xs text-gray-500">Attendance</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-accent-red"></div>
+<span class="text-xs text-gray-500">Resign</span>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end relative h-48">
+<!-- Custom Chart Visualization using simple shapes/divs to mimic the design without external charting lib -->
+<div class="relative w-full h-full flex items-end justify-between px-2 pt-8">
+<!-- Background grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full h-px bg-gray-50"></div>
+<div class="w-full h-px bg-gray-50"></div>
+<div class="w-full h-px bg-gray-50"></div>
+<div class="w-full h-px bg-gray-50"></div>
+</div>
+<!-- Chart Data Points -->
+<div class="relative z-10 w-full h-full">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 300 150">
+<!-- Gradient Fill for Attendance -->
+<defs>
+<lineargradient id="attendanceGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#033f3f" stop-opacity="0.1"></stop>
+<stop offset="100%" stop-color="#033f3f" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area Path -->
+<path d="M0,80 Q50,40 100,50 T200,30 T300,45 V150 H0 Z" fill="url(#attendanceGradient)"></path>
+<!-- Line Path Attendance -->
+<path d="M0,80 Q50,40 100,50 T200,30 T300,45" fill="none" stroke="#033f3f" stroke-linecap="round" stroke-width="3"></path>
+<!-- Line Path Resign (Lower, simpler) -->
+<path d="M0,130 Q50,135 100,125 T200,130 T300,120" fill="none" stroke="#e73108" stroke-dasharray="5,5" stroke-opacity="0.6" stroke-width="2"></path>
+<!-- Interactive Dots -->
+<circle cx="200" cy="30" fill="#fff" r="4" stroke="#033f3f" stroke-width="2"></circle>
+<circle cx="100" cy="125" fill="#fff" r="3" stroke="#e73108" stroke-width="2"></circle>
+</svg>
+</div>
+</div>
+<!-- X Axis Labels -->
+<div class="flex justify-between text-xs text-gray-400 font-medium mt-2 px-1">
+<span>Jan</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 bento-card overflow-hidden">
+<div class="p-6 border-b border-gray-50 flex items-center justify-between">
+<div>
+<h3 class="text-lg font-bold text-gray-900">Early Warning List</h3>
+<p class="text-gray-500 text-sm">Employees flagged for immediate attention.</p>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50/50 text-xs text-gray-500 uppercase tracking-wider font-semibold">
+<th class="px-6 py-4">Employee</th>
+<th class="px-6 py-4">Position</th>
+<th class="px-6 py-4">Outlet</th>
+<th class="px-6 py-4">Risk Factor</th>
+<th class="px-6 py-4 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-50 text-sm">
+<tr class="group hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Budi Santoso" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMi8s8ImMq7ww_QxVrMWpB2B_SL92Z60yKQyu7jY_SzJXxFDvT1w7-QRg3rQ4RX4wuEGNe7aAmMat5ahR9DDaT_EMs-PZWgy3eVVE8Du5p68WNrQJHKSpxSSZ-8MhoojSujUyvZ3h1-CWkFlidn3wdVL2pCScwhabekgk5GXUjMrSxWU8sBaXWZFNu_F3-uZ6H3uYYZFs7qQqZvrASGDohrofBk6CALvCdYAOU5bbV_pwa7QgjIo3QUQOi3u_SfjxvGkTOp7kF7zwx");'></div>
+<div class="font-medium text-gray-900">Budi Santoso</div>
+</div>
+</td>
+<td class="px-6 py-4 text-gray-600">Leader</td>
+<td class="px-6 py-4 text-gray-600">Pajajaran</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-100">
+<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                                            High Absenteeism
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Siti Aminah" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2KK8h5WnWuXrPGkziM8MnnWV1HclDbu0Cxde2b4xhNOZ4XqacssQcuxovPKZz92IwHJXFXD969JI6XX-JEWnB2zo4y55OTkXSBxZoTleF2I-7kVBjfyBJvyGOWRQHG4iR_OF4bdCLiBi6x6pey64RG6W2Aq-tSxYF-Z8vbtgeAhG3tSvbr3Y45jhUidjmH01GfQc_u3_eSrFreaczz56vDJ-m9o54BRnMgHbJ77FoTEZPlhRkhlo3Ll9gwwjNl0z2kDN5HfNA-zol");'></div>
+<div class="font-medium text-gray-900">Siti Aminah</div>
+</div>
+</td>
+<td class="px-6 py-4 text-gray-600">Crew</td>
+<td class="px-6 py-4 text-gray-600">Tubagus Ismail</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span>
+                                            Frequent Lateness
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+
+</tr>
+<tr class="group hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Ahmad Rizki" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD3nO81w1aFO6rZpZHG5DqNAuLuyI_cYwq3nv01p9hsEAi2MHWXt6FuiDAldV6lCf5vOt8Wqg7VQCa10lpE8j7fN_HI5otaCRBxSrrKSCsZup3suT8Mj43S_-FXSPrsNoObr7YSPGCdqKX9cmbrTSahWPvnA2g3BOhihlk1GlAHDfX-6zEWghyFCzQPS-m-smo2voS7nsTR4x-8OSRLUEZrIW_UwKgclNdqxQGKFn0PZYihfsZlFVoHEMIERVk80Xi9NgxidSZoQ6Vh");'></div>
+<div class="font-medium text-gray-900">Ahmad Rizki</div>
+</div>
+</td>
+<td class="px-6 py-4 text-gray-600">Crew</td>
+<td class="px-6 py-4 text-gray-600">Kiaracondong</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span>
+                                            Contract Ending
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

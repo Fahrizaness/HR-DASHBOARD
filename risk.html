@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Balista Risk Analysis Table View</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#033f3f",
+                        "secondary": "#608a8a",
+                        "accent-red": "#d6302a",
+                        "accent-green": "#078832",
+                        "accent-yellow": "#f2d086",
+                        "accent-teal": "#4f7979",
+                        "background-light": "#fcf8f2",
+                        "background-dark": "#102222",
+                        "surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-800 font-display min-h-screen overflow-x-hidden">
+<div class="flex flex-col md:flex-row min-h-screen">
+<aside class="w-full md:w-64 bg-primary text-white flex-shrink-0 flex flex-col justify-between p-6 sticky top-0 h-screen overflow-y-auto z-30">
+<div class="flex flex-col gap-10">
+<div class="flex items-center gap-4">
+<div class="flex items-center">
+<div className="flex flex-col items-center">
+  <img
+  src="./logo1.png"
+  alt="Balista Logo"
+  style="height: 70px; width: auto;"
+/>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">schedule</span>
+<span class="font-medium text-sm">Attendance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+<span class="font-medium text-sm">Payroll</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/15 text-white shadow-sm border border-white/5 transition-all" href="#">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+<span class="font-medium text-sm">Risk Analysis</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4 mt-auto">
+<button class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors border border-white/5">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+<header class="flex items-center justify-between px-6 py-8 md:px-10 bg-background-light sticky top-0 z-20">
+<div class="flex flex-col max-w-2xl">
+<h2 class="text-3xl font-bold text-gray-900 tracking-tight">Analisis Risiko Churn</h2>
+<p class="text-gray-500 text-sm mt-1">Daftar karyawan yang terdeteksi memiliki potensi resign tinggi.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 pl-2">
+<button class="size-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-accent-red rounded-full border border-white"></span>
+</button>
+<div class="h-8 w-px bg-gray-200 mx-2"></div>
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center border-2 border-white shadow-sm" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGLH2hffOFDNtsA_bfFzbz3vLWvAZHPxnvpNidPQdINioSPGzChF0M3ui58nDXy-9j2FzOBC61acsJReov0l84eaS-WgJ9xyji7Pu-B4MpoCuIVkjSWYg9Q218k8S-NMhkZqs6hlg0lNNsMBYZbh0sLehFw5n49Mvw3SLoSNunD56Q90-VAGieOX-xNBw31Oc1AK_ImEuRkaWdCuqSXcFh7FYo09BQH9wleE5Ld3_0U8b9NAFuWzS4_-7sz5eBIehd955zTbOvUO3O");'></div>
+</div>
+</div>
+</header>
+<div class="px-6 md:px-10 pb-10 flex-1 flex flex-col">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+<div class="relative w-full md:w-96">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-shadow shadow-sm" placeholder="Cari nama kru atau outlet..." type="text"/>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto">
+<div class="relative">
+<select class="appearance-none pl-4 pr-10 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm cursor-pointer">
+<option>Oktober 2023</option>
+<option>September 2023</option>
+<option>August 2023</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px] pointer-events-none">expand_more</span>
+</div>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
+<div class="overflow-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead class="bg-gray-50/80 sticky top-0 z-10 backdrop-blur-sm">
+<tr class="text-xs text-gray-500 uppercase tracking-wider font-semibold border-b border-gray-200">
+<th class="px-6 py-4 w-1/4">Nama Kru</th>
+<th class="px-6 py-4 w-1/6">Outlet</th>
+<th class="px-6 py-4 w-1/4">Faktor Risiko Utama</th>
+<th class="px-6 py-4 w-1/6">Skor Risiko</th>
+<th class="px-6 py-4 w-1/6 text-center">Status</th>
+<th class="px-6 py-4 w-1/12 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 text-sm">
+<tr class="group hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-gray-100 bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMi8s8ImMq7ww_QxVrMWpB2B_SL92Z60yKQyu7jY_SzJXxFDvT1w7-QRg3rQ4RX4wuEGNe7aAmMat5ahR9DDaT_EMs-PZWgy3eVVE8Du5p68WNrQJHKSpxSSZ-8MhoojSujUyvZ3h1-CWkFlidn3wdVL2pCScwhabekgk5GXUjMrSxWU8sBaXWZFNu_F3-uZ6H3uYYZFs7qQqZvrASGDohrofBk6CALvCdYAOU5bbV_pwa7QgjIo3QUQOi3u_SfjxvGkTOp7kF7zwx");'></div>
+<div>
+<div class="font-semibold text-gray-900 text-base">Ahmad Junaedi</div>
+<div class="text-gray-500 text-xs mt-0.5">Barista</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-gray-600 font-medium">Outlet Pasteur</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 rounded bg-red-50 text-red-700 text-xs font-medium border border-red-100">
+                                                Jarak &gt; 20km
+                                            </span>
+<span class="inline-flex items-center px-2 py-1 rounded bg-red-50 text-red-700 text-xs font-medium border border-red-100">
+                                                Sering Alpha
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<span class="text-lg font-bold text-gray-900">92</span><span class="text-gray-400 text-sm">/100</span>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold text-white bg-accent-red shadow-sm tracking-wide w-24">
+                                            HIGH RISK
+                                        </span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<button class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/20">
+                                            Detail
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-gray-100 bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2KK8h5WnWuXrPGkziM8MnnWV1HclDbu0Cxde2b4xhNOZ4XqacssQcuxovPKZz92IwHJXFXD969JI6XX-JEWnB2zo4y55OTkXSBxZoTleF2I-7kVBjfyBJvyGOWRQHG4iR_OF4bdCLiBi6x6pey64RG6W2Aq-tSxYF-Z8vbtgeAhG3tSvbr3Y45jhUidjmH01GfQc_u3_eSrFreaczz56vDJ-m9o54BRnMgHbJ77FoTEZPlhRkhlo3Ll9gwwjNl0z2kDN5HfNA-zol");'></div>
+<div>
+<div class="font-semibold text-gray-900 text-base">Rina Melati</div>
+<div class="text-gray-500 text-xs mt-0.5">Cashier</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-gray-600 font-medium">Outlet Dago</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 rounded bg-yellow-50 text-yellow-800 text-xs font-medium border border-yellow-100">
+                                                Masa Kerja &lt; 3 Bulan
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<span class="text-lg font-bold text-gray-900">65</span><span class="text-gray-400 text-sm">/100</span>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold text-gray-900 bg-accent-yellow shadow-sm tracking-wide w-24">
+                                            MEDIUM
+                                        </span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<button class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/20">
+                                            Detail
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-gray-100 bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD3nO81w1aFO6rZpZHG5DqNAuLuyI_cYwq3nv01p9hsEAi2MHWXt6FuiDAldV6lCf5vOt8Wqg7VQCa10lpE8j7fN_HI5otaCRBxSrrKSCsZup3suT8Mj43S_-FXSPrsNoObr7YSPGCdqKX9cmbrTSahWPvnA2g3BOhihlk1GlAHDfX-6zEWghyFCzQPS-m-smo2voS7nsTR4x-8OSRLUEZrIW_UwKgclNdqxQGKFn0PZYihfsZlFVoHEMIERVk80Xi9NgxidSZoQ6Vh");'></div>
+<div>
+<div class="font-semibold text-gray-900 text-base">Dedi Corbuz</div>
+<div class="text-gray-500 text-xs mt-0.5">Kitchen</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-gray-600 font-medium">Outlet Antapani</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 rounded bg-green-50 text-green-700 text-xs font-medium border border-green-100">
+                                                Absensi Bagus
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<span class="text-lg font-bold text-gray-900">15</span><span class="text-gray-400 text-sm">/100</span>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold text-white bg-accent-teal shadow-sm tracking-wide w-24">
+                                            LOW
+                                        </span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<button class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/20">
+                                            Detail
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-gray-100 flex items-center justify-center text-primary font-bold text-sm">BS</div>
+<div>
+<div class="font-semibold text-gray-900 text-base">Bambang S.</div>
+<div class="text-gray-500 text-xs mt-0.5">Waiter</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-gray-600 font-medium">Outlet Pasteur</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs font-medium border border-gray-200">
+                                                -
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<span class="text-lg font-bold text-gray-900">10</span><span class="text-gray-400 text-sm">/100</span>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold text-white bg-accent-teal shadow-sm tracking-wide w-24">
+                                            LOW
+                                        </span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<button class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/20">
+                                            Detail
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
+<div class="text-xs text-gray-500">
+                            Showing <span class="font-medium text-gray-900">1</span> to <span class="font-medium text-gray-900">4</span> of <span class="font-medium text-gray-900">142</span> results
+                        </div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 rounded-lg border border-gray-300 bg-white text-gray-500 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="p-1.5 rounded-lg border border-gray-300 bg-white text-gray-500 hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

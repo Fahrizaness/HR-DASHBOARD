@@ -1,15 +1,22 @@
 // File: app/api/outlets/route.ts
-import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
-export const revalidate = 0;
+
+import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabaseClient";
+
 export async function GET() {
-    try {
-        const { data, error } = await supabase.from('outlets').select('id, name');
-        if (error) throw error;
-        return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500,
-            headers: { 'Cache-Control': 'no-store' }
-        });
-    }
+  try {
+    // --- PERBAIKAN DISINI ---
+    // Ganti .select('id, name') menjadi .select('*')
+    // Agar kolom latitude, longitude, dan address ikut terambil
+    const { data, error } = await supabase
+      .from("outlets")
+      .select("*") 
+      .order("name", { ascending: true });
+
+    if (error) throw error;
+
+    return NextResponse.json(data);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
