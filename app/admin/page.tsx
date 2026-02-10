@@ -103,7 +103,7 @@ export default function AdminLandingPage() {
                     <Activity className="absolute right-[-20px] bottom-[-20px] w-64 h-64 text-white/5 pointer-events-none" />
 
                     <div className="relative z-10 mt-auto">
-                        <Link href="/admin/dashboard">
+                        <Link href="/admin/dashboard-turnover">
                             <button className="group/btn inline-flex items-center gap-3 bg-white text-[#033f3f] px-6 py-3.5 rounded-xl font-bold hover:bg-white/90 transition-all shadow-lg shadow-black/10">
                                 Buka Analitik
                                 <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />

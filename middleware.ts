@@ -2,71 +2,77 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // 1. Setup Response
+  // 1. Inisialisasi Response Awal
   let response = NextResponse.next({
-    request: { headers: request.headers },
+    request: {
+      headers: request.headers,
+    },
   })
 
-  // 2. Setup Supabase Client
+  // 2. Setup Supabase Client (Versi Next.js 15/16 Compatible)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) { return request.cookies.get(name)?.value },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
-          response.cookies.set({ name, value, ...options })
+        getAll() {
+          return request.cookies.getAll()
         },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
-          response.cookies.set({ name, value: '', ...options })
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          response = NextResponse.next({
+            request,
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          )
         },
       },
     }
   )
 
-  // 3. Ambil User & Path
+  // 3. Cek User (PENTING: Jangan gunakan getUser() di middleware jika ingin performa cepat, tapi untuk proteksi rute wajib getUser)
   const { data: { user } } = await supabase.auth.getUser()
   const path = request.nextUrl.pathname
-  
-  // ROLE DETECTION (Dengan Fallback 'crew' agar tidak null)
-  const role = user?.user_metadata?.role || 'crew'; 
 
-  // === LOGIKA PENGAMANAN (ANTI LOOP) ===
+  // 4. LOGIKA REDIRECT (Sederhana & Anti Loop)
 
-  // KONDISI 1: User BELUM Login
+  // A. JIKA BELUM LOGIN
   if (!user) {
-    // Jika mencoba masuk area terlarang, lempar ke Login
+    // Blokir akses ke /admin dan /crew
     if (path.startsWith('/admin') || path.startsWith('/crew')) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
-  // KONDISI 2: User SUDAH Login
+  // B. JIKA SUDAH LOGIN
   if (user) {
-    // A. Jika sedang di halaman Login -> Pindahkan ke Dashboard yang sesuai
-    if (path === '/login') {
-      if (role === 'admin') return NextResponse.redirect(new URL('/admin', request.url));
-      return NextResponse.redirect(new URL('/crew/dashboard', request.url));
+    const role = user.user_metadata?.role || 'crew';
+
+    // Jika user login mencoba buka halaman login lagi -> Lempar ke dashboard masing-masing
+    if (path ===('/login')) {
+      if (role === 'admin') {
+        return NextResponse.redirect(new URL('/admin', request.url))
+      } else {
+        return NextResponse.redirect(new URL('/crew/dashboard', request.url))
+      }
     }
 
-    // B. Jika mencoba masuk Admin tapi BUKAN Admin
+    // Proteksi Role: Admin Only
     if (path.startsWith('/admin') && role !== 'admin') {
-      // PENTING: Jangan redirect jika tujuannya sudah benar (biar gak loop)
-      return NextResponse.redirect(new URL('/crew/dashboard', request.url));
+      return NextResponse.redirect(new URL('/crew/dashboard', request.url))
     }
-    
-    // C. Jika mencoba masuk Dashboard Crew
-    // (Kita izinkan semua user yang login untuk masuk sini sementara waktu untuk mencegah error)
-    // Logika pembatasan ketat bisa kita pasang nanti setelah error loop sembuh.
   }
 
   return response
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/crew/:path*', '/login'],
+  /*
+   * Matcher: Terapkan middleware HANYA pada rute yang butuh proteksi
+   * Hindari menerapkan pada _next, api, static files, favicon agar tidak "fetch failed" massal
+   */
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 }
